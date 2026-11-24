@@ -6,10 +6,15 @@ const entry: string =
   "Please accept my resignation: in four years here, my only promotion was from 'new guy' to 'the guy who knows where the spare keys are.'";
 
 // Length gate: count code points (not UTF-16 units) and refuse to write
-// anything outside the 1–140 character range.
+// anything outside the allowed range. The bounds are named constants so
+// the limit is stated once and reused by the check and the error below.
+const MIN_LENGTH = 1;
+const MAX_LENGTH = 140;
 const ENTRY_LENGTH = [...entry].length;
-if (ENTRY_LENGTH < 1 || ENTRY_LENGTH > 140) {
-  throw new Error(`entry length ${ENTRY_LENGTH} outside allowed range 1–140`);
+if (ENTRY_LENGTH < MIN_LENGTH || ENTRY_LENGTH > MAX_LENGTH) {
+  throw new Error(
+    `entry length ${ENTRY_LENGTH} outside allowed range ${MIN_LENGTH}–${MAX_LENGTH}`,
+  );
 }
 
 mkdirSync("/output", { recursive: true });
